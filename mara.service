@@ -1,0 +1,15 @@
+[Unit]
+Description="Mara On Guard"
+
+[Service]
+ExecStart=/usr/bin/node  /var/mara/mara.js
+WorkingDirectory=/var/mara
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=MaraGuard
+Environment=NODE_ENV=production PORT=4343
+
+[Install]
+WantedBy=multi-user.target
