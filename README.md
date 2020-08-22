@@ -11,10 +11,10 @@ You'll need a working install of Node.js - full install instructions [here](http
 There are currently a few "require" which will download on first run
 
 ```
-npm i
+npm i --production
 ```
 
-then
+then make a cup of tea, sit back and relax and finally....
 
 ```
 node mara.js
