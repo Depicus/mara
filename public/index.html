@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/mara.css">
+
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <title>Mara - Multi Web Site Checker</title>
+</head>
+
+<body>
+    <img class="img-circle" src="/img/maraandmimi.jpg" width="128px" height="128px">
+    <div class="container">
+        <div class="row">
+            <div class="twelve column" style="margin-top: 10%">
+                <h4>Mara - Guarding Your Web Sites Since 2020</h4>
+                <p>Below are the sites currently monitored every 5 mins to check they are 200.</p>
+                        
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve column" style="margin-top: 2%">
+                <h4>Servers</h4>
+                <span id="servers"></span>
+                <script>
+
+                    function fetchSites() {
+                        document.getElementById("servers").textContent = "";
+                        fetch(url)
+                            .then(res => res.json())
+                            .then((out) => {
+                                console.log('Checkout this JSON! = ', out);
+                                out.forEach(function (obj) 
+                                { 
+                                    //console.log(obj.url); 
+                                    const lastcontact = obj.lastcontact ? obj.lastcontact : "never";
+                                    const currentstatus = obj.currentstatus ? obj.currentstatus : "not set yet";
+                                    document.getElementById("servers").textContent += obj.url + " last online " + lastcontact + " - " + currentstatus + newline;
+                                });
+                            })
+                            .catch(err => { throw err });
+                    }
+                    let url = 'hi';
+                    fetchSites();
+
+                    var newline = "\r\n";
+
+                    var interval = 1000 * 60; // 1 min
+                    var expected = Date.now() + interval;
+                    setTimeout(poll, interval);
+                    function poll() {
+                        var dt = Date.now() - expected; 
+                        if (dt > interval) {
+                            // something really bad happened.
+                        }
+                        let newDate = new Date(Date.now());
+                        console.info("we stepped at " + newDate.toTimeString());
+
+                        //
+                        fetchSites();
+                        expected += interval;
+                        setTimeout(poll, Math.max(0, interval - dt)); // take into account drift
+                    }
+                </script>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve column" style="margin-top: 4%">
+                <!-- Primary buttons -->
+                <a class="button button-primary" href="add.html">Add New URL</a>
+                <a class="button button-primary" href="change.html">Change Mail Settings</a>
+                <a class="button button-primary" href="https://www.depicus.com/" target="_blank">About</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

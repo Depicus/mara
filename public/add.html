@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/mara.css">
+
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <title>Mara - Add Or Delete Sites</title>
+</head>
+
+<body>
+    <a href="/"><img class="img-circle" src="/img/maraandmimi.jpg" width="128px" height="128px"></a>
+    <div class="container">
+        <div class="row">
+            <div class="twelve column" style="margin-top: 10%">
+                <h4>Guarded Servers + Additions</h4>
+                <span id="servers"></span>
+                <script>
+
+
+                </script>
+
+
+                <label for="addHost" style="margin-top: 24px;">Add New Web URL To Watch</label>
+                <input class="u-full-width" type="text" placeholder="https://www.depicus.com" id="addHost">
+                <a class="button" href="#" onclick="addNewHost();return false;">Add</a>
+                <span id="errormsg" style="margin-left: 12px;"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve column" style="margin-top: 4%">
+                <!-- Primary buttons -->
+                <a class="button button-primary" href="add.html">Add New URL</a>
+                <a class="button button-primary" href="change.html">Change Mail Settings</a>
+                <a class="button button-primary" href="https://www.depicus.com/" target="_blank">About</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+    getExistingSites();
+
+    function getExistingSites() {
+        document.getElementById("servers").textContent = "";
+        let url = '/hi';
+        var newline = "\r\n";
+        fetch(url)
+            .then(res => res.json())
+            .then((out) => {
+                //console.log('Checkout this JSON! ', out);
+                out.forEach(function (obj) {
+                    //console.log(obj.url); 
+                    const lastcontact = obj.lastcontact ? obj.lastcontact : "never";
+                    const currentstatus = obj.currentstatus ? obj.currentstatus : "not set yet";
+                    document.getElementById("servers").textContent += obj.url + newline;
+                });
+            })
+            .catch(err => { throw err });
+    }
+
+    async function postData(url = '', data = {}) {
+        const response = await fetch(url, {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        return response.json();
+    }
+
+    function addNewHost() {
+        const host = document.getElementById("addHost").value;
+        postData('addhost', { host: host })
+            .then(data => {
+                console.log(data);
+                if (data.errormsg == 1) {
+                    document.getElementById("errormsg").style.color = 'green';
+                    document.getElementById("errormsg").innerHTML = "we have a good save";
+                    getExistingSites();
+                    document.getElementById("addHost").value = ""
+                } else {
+                    document.getElementById("errormsg").style.color = 'red';
+                    document.getElementById("errormsg").innerHTML = "I'm sorry Dave I cannot do that";
+                }
+            });
+    }
+</script>
+
+</html>

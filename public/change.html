@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/mara.css">
+
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <title>Mara - Multi Web Site Checker</title>
+</head>
+
+<body>
+    <a href="/"><img class="img-circle" src="/img/maraandmimi.jpg" width="128px" height="128px"></a>
+    <div class="container">
+        <div class="row">
+            <div class="six columns" style="margin-top: 10%">
+                <h4>Mail Settings</h4>
+                <label for="setHost">SMTP Mail Server</label>
+                <input class="u-full-width" type="text" placeholder="127.0.0.1" id="setHost">
+                <label for="setFromAddress">From Address</label>
+                <input class="u-full-width" type="email" placeholder="test@mailbox.com" id="setFromAddress">
+                <label for="setToAddress">To Address</label>
+                <input class="u-full-width" type="email" placeholder="test@mailbox.com" id="setToAddress">
+                
+                <a class="button" href="#" onclick="saveSettings();return false;">Save</a>
+                <span id="errormsg" style="margin-left: 12px;"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve column" style="margin-top: 4%">
+                <!-- Primary buttons -->
+                <a class="button button-primary" href="add.html">Add New URL</a>
+                <a class="button button-primary" href="change.html">Change Mail Settings</a>
+                <a class="button button-primary" href="https://www.depicus.com/" target="_blank">About</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let url = 'get/:settings';
+        fetch(url)
+            .then(res => res.json())
+            .then((out) => {
+                out.forEach(function (obj) {
+                    const host = obj.host ? obj.host : "not set";
+                    if (host !== "not set") {
+                        document.getElementById("setHost").value = host;
+                    }
+                    const efrom = obj.efrom ? obj.efrom : "not set";
+                    if (efrom !== "not set") {
+                        document.getElementById("setFromAddress").value = efrom;
+                    }
+                    const eto = obj.eto ? obj.eto : "not set";
+                    if (eto !== "not set") {
+                        document.getElementById("setToAddress").value = eto;
+                    }
+
+                    //const currentstatus = obj.currentstatus ? obj.currentstatus : "not set yet";
+                    //document.getElementById("servers").textContent += obj.url + " last online " + lastcontact + " - " + currentstatus + newline;
+                });
+            })
+            .catch(err => { throw err });
+
+
+        var newline = "\r\n";
+    })
+
+    async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'POST',
+                cache: 'no-cache', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            return response.json();
+        }
+
+    function saveSettings() {
+        const host = document.getElementById("setHost").value;
+        const efrom = document.getElementById("setFromAddress").value;
+        const eto = document.getElementById("setToAddress").value;
+        postData('setmail', { host: host, efrom: efrom, eto: eto })
+            .then(data => {
+                if (data.errormsg == 1) {
+                    document.getElementById("errormsg").style.color = 'green';
+                    document.getElementById("errormsg").innerHTML = "we have a good save";
+                } else {
+                    document.getElementById("errormsg").style.color = 'red';
+                    document.getElementById("errormsg").innerHTML = "I'm sorry Dave I cannot do that";
+                }
+            });
+
+    }
+   
+
+</script>
+
+</html>

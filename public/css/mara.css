@@ -1,0 +1,13 @@
+#servers {
+    white-space: pre;
+}
+
+.img-circle {
+    border-radius: 50%;
+    width: 128px;
+    height: 128px;
+    position: absolute;
+    margin-top: 7%;
+    margin-left: 120px;
+    display: flow-root;
+}

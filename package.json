@@ -1,0 +1,21 @@
+{
+  "name": "mara",
+  "version": "1.0.0",
+  "description": "A web guard in Node.js",
+  "main": "mara.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Mara"
+  ],
+  "author": "Brian Slack - depicus",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^7.1.0",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.11",
+    "sqlite3": "^5.0.0"
+  }
+}
