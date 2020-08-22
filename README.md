@@ -14,7 +14,7 @@ There are currently a few "require" which will download on first run
 node mara.js
 ```
 
-the `--allow read` and `--allow-write` are required for db access, `--unstable` was used while testing ctrl-c code but not required and `--allow-net` is required to run the web server and fetch the urls.
+That should be it.
 
 ## Running Mara
 
