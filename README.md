@@ -27,7 +27,15 @@ That should be it.
 Two things will happen
 
 1. Mara will set up a timed loop to check the urls in the database
-2. In the future it will run a web server on http://127.0.0.1:4343
+2. It will run a web server on http://127.0.0.1:4343
+
+## Running as a service on systems that use systemd 
+
+Copy the mara.service to /etc/systemd/system and change anything needed to fit your system like location.
+
+Then `systemctl enable mara.service` next `systemctl start mara.service` and check all is ok with `systemctl status mara.service`
+
+You may need to sudo to get it working.
 
 ## Deployment
 
