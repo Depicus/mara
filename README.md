@@ -11,6 +11,12 @@ You'll need a working install of Node.js - full install instructions [here](http
 There are currently a few "require" which will download on first run
 
 ```
+npm i
+```
+
+then
+
+```
 node mara.js
 ```
 
