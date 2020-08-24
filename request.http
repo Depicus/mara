@@ -1,0 +1,10 @@
+GET http://localhost:4343/hi
+Content-Type: application/json
+
+###
+POST http://localhost:4343/addhost
+Content-Type: application/json
+
+{
+ "host": "http://example.com"
+}

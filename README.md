@@ -51,6 +51,10 @@ Mara was developed on macOS and runs on a Raspberry Pi 4 in a live environment. 
 
 Please feel free to clone, star and push.
 
+## Tools
+
+* [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) great tool for testing http requests.
+
 ## Versioning
 
 For the versions available, see the [tags on this repository](https://github.com/mara/tags). 
