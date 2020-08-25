@@ -65,7 +65,7 @@ Please feel free to clone, star and push.
 
 ## Versioning
 
-For the versions available, see the [tags on this repository](https://github.com/mara/tags). 
+For the versions available, see the [tags on this repository](https://github.com/Depicus/mara/releases/). 
 
 ## Authors
 
