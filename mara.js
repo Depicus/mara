@@ -1,16 +1,17 @@
 const express = require('express')
 const fetch = require("node-fetch");
 const mailer = require('nodemailer');
+const https = require('https');
+const sqlite = require("better-sqlite3");
+const fs = require('fs')
 
 const app = express()
-const sqlite = require("better-sqlite3");
 const port = 4343
 const interval = 1000 * 60 * 5; // 5 min
 const path = 'settings.db'
+const db = new sqlite("settings.db");
 
-// database stuff
-
-const fs = require('fs')
+// database create if needed stuff
 fs.access(path, fs.F_OK, (err) => {
     if (err) {
         console.debug("file does not exist so create it.")
@@ -22,7 +23,7 @@ fs.access(path, fs.F_OK, (err) => {
     }
 });
 
-const db = new sqlite("settings.db");
+
 
 app.use(express.json());
 
@@ -54,15 +55,27 @@ app.post('/addhost', function (req, res) {
 
 app.use(express.static('public'))
 
-app.listen(port, () => {
-    console.log(`Mara is guarding the web at http://localhost:${port}`)
-})
+fs.access('ssl/cert.pem', fs.F_OK, (err) => {
+    if (err) {
+        app.listen(port, () => {
+            console.log(`Mara is guarding the web at http://localhost:${port}`)
+        })
+    } else {
+        https.createServer({
+            key: fs.readFileSync('ssl/key.pem'),
+            cert: fs.readFileSync('ssl/cert.pem'),
+            passphrase: 'mara'
+        }, app).listen(port, () => {
+            console.log(`Mara is guarding the web at https://localhost:${port}`)
+        });
+    }
+});
 
 // timer 
 var expected = Date.now() + interval;
 setTimeout(step, interval);
 function step() {
-    var dt = Date.now() - expected; 
+    var dt = Date.now() - expected;
     if (dt > interval) {
         // something really bad happened.
     }
@@ -131,7 +144,7 @@ function getLastStatus(url) {
 }
 
 // send email alert(s)
-function sendAlert(url,msg) {
+function sendAlert(url, msg) {
     var db = new sqlite("settings.db");
     var mailsettings = db.prepare("SELECT host, efrom, eto FROM mail").get();
     let transport = mailer.createTransport({

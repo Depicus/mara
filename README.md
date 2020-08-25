@@ -29,6 +29,14 @@ Two things will happen
 1. Mara will set up a timed loop to check the urls in the database
 2. It will run a web server on http://127.0.0.1:4343
 
+## Running with SSL 
+
+By default Mara will run on http but if you want to run over https you can;
+
+1. Create a folder in the root of the app called ssl
+2. cd into that folder and run `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365`
+3. Follow all the questions and either use a key called ***mara*** or create your own and change mara.js with the new key.
+
 ## Running as a service on systems that use systemd 
 
 Copy the mara.service to /etc/systemd/system and change anything needed to fit your system like location.
