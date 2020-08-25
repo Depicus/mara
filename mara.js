@@ -80,7 +80,7 @@ function step() {
         // something really bad happened.
     }
     let newDate = new Date(Date.now());
-    var db = new sqlite("settings.db");
+    //var db = new sqlite("settings.db");
     var rows = db.prepare("SELECT url FROM sites").all();
     rows.forEach(function (obj) {
         checkSite(obj.url);
@@ -93,7 +93,7 @@ function step() {
 // check sites
 function updateDB(currentstatus, url, savedate) {
     try {
-        var db = new sqlite("settings.db");
+        //var db = new sqlite("settings.db");
         //console.info(datetime('now'));
         if (savedate) {
             const info = db.prepare("UPDATE sites SET currentstatus = ? , lastcontact = datetime('now', 'localtime') WHERE url = ?").run(currentstatus, url);
@@ -145,7 +145,7 @@ function getLastStatus(url) {
 
 // send email alert(s)
 function sendAlert(url, msg) {
-    var db = new sqlite("settings.db");
+    //var db = new sqlite("settings.db");
     var mailsettings = db.prepare("SELECT host, efrom, eto FROM mail").get();
     let transport = mailer.createTransport({
         host: mailsettings.host,
