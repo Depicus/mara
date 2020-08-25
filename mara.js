@@ -8,11 +8,10 @@ const fs = require('fs')
 const app = express()
 const port = 4343
 const interval = 1000 * 60 * 5; // 5 min
-const path = 'settings.db'
-const db = new sqlite("settings.db");
+const database = 'settings.db'
 
 // database create if needed stuff
-fs.access(path, fs.F_OK, (err) => {
+fs.access(database, fs.F_OK, (err) => {
     if (err) {
         console.debug("file does not exist so create it.")
         const db = new sqlite("settings.db");
@@ -23,7 +22,8 @@ fs.access(path, fs.F_OK, (err) => {
     }
 });
 
-
+// must be below file check otherwise it gets created with no tables
+const db = new sqlite(database);
 
 app.use(express.json());
 
